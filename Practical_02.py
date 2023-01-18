@@ -25,7 +25,7 @@ class iris:
         self.species = species
 
     def value(self):
-        temp = self.sepalLength + ',' + self.sepalWidth + ',' + self.petalLength + ',' + self.petalLength + ',' + self.species
+        temp = self.sepalLength + ',' + self.sepalWidth + ',' + self.petalLength + ',' + self.petalWidth + ',' + self.species
         return temp
 
 
@@ -38,11 +38,11 @@ for x in file:
 
 file.close()
 
-for x in range(1, len(fileLine)):
+for x in range(0, len(fileLine)):
     temp = fileLine[x].split(',')
     irisList.append(iris(temp[0], temp[1], temp[2], temp[3], temp[4]))
 
-irisLength = len(irisList)
+irisLength = len(irisList)-1
 
 incompleteData = 0
 
@@ -52,6 +52,7 @@ for x in irisList:
 
 print("Total no. of Data : ", irisLength)
 print("No. of Incomplete Data : ", incompleteData)
+
 try:
     print("Percentage of Incomplete Data : ", (incompleteData/irisLength)*100)
 except:
@@ -62,17 +63,13 @@ except:
 for l in range(0, len(irisList)):
     try:
         if (float(irisList[l].sepalLength) <= 0.000):
-            print(irisList[l].value())
             irisList[l].sepalLength = "NA"
         if (float(irisList[l].sepalWidth) <= 0.0000):
-            print(irisList[l].value())
             irisList[l].sepalWidth = "NA"
         if (float(irisList[l].petalLength) <= 0.0000):
-            print(irisList[l].value())
-            irisList[l].petalLength = "NA"
+            irisList[l].petalLength = "NA"           
         if (float(irisList[l].petalWidth) <= 0.0000):
-            print(irisList[l].value())
-            irisList[l].petalWidth = "NA"
+            irisList[l].petalWidth = "NA"           
     except:
         continue
 
@@ -80,3 +77,5 @@ fileWrite = open("dirty_iris.csv", "w")
 
 for l in range(0, len(irisList)):
     fileWrite.write(irisList[l].value())
+
+
