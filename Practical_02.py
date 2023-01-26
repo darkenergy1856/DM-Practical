@@ -89,13 +89,13 @@ except:
 
 for l in range(0, len(irisList)):
     try:
-        if (float(irisList[l].sepalLength) <= 0.000 or float(irisList[l].sepalLength) > 10.00):
+        if (float(irisList[l].sepalLength) <= 0.000):
             irisList[l].sepalLength = "NA"
-        if (float(irisList[l].sepalWidth) <= 0.0000 or float(irisList[l].sepalWidth) > 10.00 ):
+        if (float(irisList[l].sepalWidth) <= 0.0000):
             irisList[l].sepalWidth = "NA"
-        if (float(irisList[l].petalLength) <= 0.0000 or float(irisList[l].petalLength) > 10.00 ):
+        if (float(irisList[l].petalLength) <= 0.0000):
             irisList[l].petalLength = "NA"
-        if (float(irisList[l].petalWidth) <= 0.0000 or float(irisList[l].petalWidth) > 10.00):
+        if (float(irisList[l].petalWidth) <= 0.0000):
             irisList[l].petalWidth = "NA"
     except:
         continue
@@ -127,6 +127,7 @@ plt.bar(Options, ruleVoilation, color ='maroon',
         width = 0.4)
 plt.ylabel('No. of Rule Voilation')
 plt.title("No. of Record : " + str(len(irisList)-1))
+
 plt.show()
 
 sepalLengthList = []
