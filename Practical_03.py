@@ -82,11 +82,14 @@ if ((isMeanZero and isStandardDeviationOne) != True):
     tempNew.append(data[0])
     for x in range( 1 , len(data)):
         row = []
-        for y in range(0 , 4):
-            if(data[x][y] != 'NA'):
-                row.append((float(data[x][y]) - mean[y])/standardDeviation[y])
+        for y in range(0 , 5):
+            if(y == 4):
+                row.append(data[x][y])
             else:
-                 row.append('NA')
+                if(data[x][y] != 'NA'):
+                    row.append((float(data[x][y]) - mean[y])/standardDeviation[y])
+                else:
+                    row.append('NA')
         tempNew.append(row)
 
     with open('dirty_iris.csv' , mode = 'w', newline='') as file :
