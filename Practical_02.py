@@ -89,13 +89,13 @@ except:
 
 for l in range(0, len(irisList)):
     try:
-        if (float(irisList[l].sepalLength) <= 0.000):
+        if (float(irisList[l].sepalLength) <= 0.000 or irisList[l].sepalLength == 'Inf'):
             irisList[l].sepalLength = "NA"
-        if (float(irisList[l].sepalWidth) <= 0.0000):
+        if (float(irisList[l].sepalWidth) <= 0.0000 or irisList[l].sepalWidth == 'Inf'):
             irisList[l].sepalWidth = "NA"
-        if (float(irisList[l].petalLength) <= 0.0000):
+        if (float(irisList[l].petalLength) <= 0.0000 or irisList[l].petalLength == 'Inf'):
             irisList[l].petalLength = "NA"
-        if (float(irisList[l].petalWidth) <= 0.0000):
+        if (float(irisList[l].petalWidth) <= 0.0000 or irisList[l].petalWidth == 'Inf'):
             irisList[l].petalWidth = "NA"
     except:
         continue
