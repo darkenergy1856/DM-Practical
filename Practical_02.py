@@ -1,4 +1,4 @@
-#  Q2. Perform the following preprocessing tasks on the dirty_iris datasetii.
+#  Q2. Perform the following preprocessing tasks on the dirty_iris dataset.
 # i) Calculate the number and percentage of observations that are complete.
 # ii) Replace all the special values in data with NA.
 # iii) Define these rules in a separate text file and read them.
@@ -141,5 +141,4 @@ for l in range(1 , len(irisList)):
 graph = plt.boxplot(sepalLengthList)
 plt.title("Sepal Length")
 plt.show()
-
 print(graph)
