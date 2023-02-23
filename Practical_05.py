@@ -11,47 +11,57 @@
 # no -> 0 , yes -> 1
 # left -> 1 , right -> 2
 # left_low -> 1 , right_up -> 2 , left_up -> 3 , right_low -> 4 , central -> 5
-# no-recurrence-events -> N , recurrence-events -> R
+
+# M -> 0 , F-> 1 , I -> 2
+
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.neighbors import KNeighborsClassifier
 
 for k in range(2):
     if (k == 0):
-        print("Decision Tree : Abalone.")
+        print("Data Set : Abalone.")
         data = pd.read_csv('abalone.csv')
         X = data.values[:, 1:9]
         Y = data.values[:, 0]
     else:
-        print("Decision Tree : Breast-Cancer.")
+        print("Data Set : Breast-Cancer.")
         data = pd.read_csv('breast-cancer.csv' , na_values=['?'])
-        # imputer = KNNImputer(n_neighbors=2, weights="uniform")
-        # imputer.fit_transform(data)
         data.dropna(inplace=True)
         X = data.values[:, 1:10]
         Y = data.values[:, 0]
 
-    # Decision Tree 75% training set
+    # Using 75% training set
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.25)
 
     clf_entropy = DecisionTreeClassifier()
+    neigh = KNeighborsClassifier()
+
     clf_entropy.fit(X_train, Y_train)
+    neigh.fit(X_train , Y_train)        
 
     y_pred_en = clf_entropy.predict(X_test)
 
     print(("Accuracy is "), accuracy_score(Y_test, y_pred_en)
-          * 100, ("with 75 % of training data"))
+          * 100, ("when using Decision Tree with 75 % of training data"))
+    print(("Accuracy is "), neigh.score(X_test, Y_test)
+          * 100, ("when using KNN with 75 % of training data"))      
 
-    # Decision Tree 66.6 % training set
+    # Using 66.6 % training set
 
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.33)
 
-    clf_entropy = DecisionTreeClassifier()
     clf_entropy.fit(X_train, Y_train)
+    neigh.fit(X_train , Y_train)     
 
     y_pred_en = clf_entropy.predict(X_test)
 
     print(("Accuracy is "), accuracy_score(Y_test, y_pred_en)
-          * 100, ("with 66.6 % of training data"))
+          * 100, ("when using Decision Tree with 66.6 % of training data"))
+    print(("Accuracy is "), neigh.score(X_test, Y_test)
+          * 100, ("when using KNN with 66.6 % of training data"))    
+
+
