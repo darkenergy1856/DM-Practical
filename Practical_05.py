@@ -14,12 +14,9 @@
 # no-recurrence-events -> N , recurrence-events -> R
 
 import pandas as pd
-import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
-from sklearn import tree
-from sklearn.impute import KNNImputer
 
 for k in range(2):
     if (k == 0):
