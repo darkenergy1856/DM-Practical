@@ -12,17 +12,28 @@
 # left -> 1 , right -> 2
 # left_low -> 1 , right_up -> 2 , left_up -> 3 , right_low -> 4 , central -> 5
 
+import statistics
+from matplotlib import scale
 import pandas as pd
+import numpy
+import matplotlib.pyplot as plt
+from sklearn import preprocessing
+from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import StratifiedKFold, train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
-from sklearn.preprocessing import StandardScaler
 
 GaussianNBmodel = GaussianNB()
 clf_entropy = DecisionTreeClassifier()
 neigh = KNeighborsClassifier()
+scale = StandardScaler()
+
+
+def get_Score(model,X_train,Y_train,X_test,Y_test):
+    model.fit(X_train,Y_train)
+    return model.score(X_test,Y_test)*100
 
 for k in range(2):
     if (k == 0):
@@ -74,5 +85,46 @@ for k in range(2):
 
 
 data = pd.read_csv('abalone.csv')
-
+X = data.values[:, 1:9]
+Y = data.values[:, 0]
+scaler = preprocessing.StandardScaler().fit(X)
+X = scaler.transform(X)
+print("Standarized Data \n",X)
 print("This is only possible for Abalone Dataset due to nature of Data.")
+
+
+Accuracy = []
+X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size=0.2,random_state=1000,shuffle=True,stratify=Y)
+X_train = scale.fit_transform(X_train)
+X_test = scale.fit_transform(X_test)
+Accuracy.append(get_Score(neigh,X_train,Y_train,X_test,Y_test))
+
+# using Random Subsampling for splitting
+Accuracy_Random=[]
+k=6
+for i in range(0,k):
+    X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size=0.2,random_state=1000,shuffle=True,stratify=Y)
+    X_train = scale.fit_transform(X_train)
+    X_test = scale.fit_transform(X_test)
+    Accuracy_Random.append(get_Score(neigh,X_train,Y_train,X_test,Y_test))
+Accuracy.append(statistics.mean(Accuracy_Random))
+
+# using K-Cross-Validation for splitting
+k=9
+kf = StratifiedKFold(n_splits=k)
+Accuracy_kFold=[]
+for train_index,test_index in kf.split(X,Y):
+    X_train,X_test,Y_train,Y_test = X[train_index],X[test_index],Y[train_index],Y[test_index] # type: ignore
+    X_train = scale.fit_transform(X_train)
+    X_test = scale.fit_transform(X_test)
+    Accuracy_kFold.append(get_Score(neigh,X_train,Y_train,X_test,Y_test))
+Accuracy.append(statistics.mean(Accuracy_kFold))
+print("Accuracy: ",Accuracy)
+
+# Visualizing the accuracy of the K-Nearest Neighbour Model for different Splitting models
+Yval = Accuracy
+Xval=["Hold-Out","Random Sub-Sampling","Cross-Validation"]
+plt.bar(Xval,Yval,color="green",width=0.2)
+plt.xlabel("Splitting Method")
+plt.title("K-Nearest Neighbor Classifier Visualization")
+plt.show()
