@@ -10,7 +10,7 @@ import pandas as pd
 
 iris = pd.read_csv('iris.csv')
 
-for i in range(150):
+for i in range(95):
     if i<=49:
         plt.plot(iris.values[i:,1],iris.values[i:,2] , 'ro')
     if i>49 and i<=99:
